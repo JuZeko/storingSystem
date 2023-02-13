@@ -1,0 +1,16 @@
+<label>Different types of products </label>
+<div class="pr-5">
+  <button type="button">USER</button>
+
+  <button type="button">ADMIN</button>
+</div>
+<ng-select
+  [items]="productTypes"
+  bindLabel="name"
+  bindValue="id"
+  placeholder="Select product Type"
+  [(ngModel)]="selectedProductTypeId"
+>
+</ng-select>
+
+<app-product-table [item]="currentItem"></app-product-table>
