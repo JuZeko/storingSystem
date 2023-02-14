@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col">
+    <button
+      type="button"
+      class="btn btn-primary me-4"
+      [ngClass]="{ 'btn btn-primary': isUserAdmin === false }"
+      (click)="onSwitcTohUser()"
+    >
+      User
+    </button>
+
+    <button
+      type="button"
+      [ngClass]="{ 'btn btn-primary': isUserAdmin === true }"
+      class="btn btn-primary"
+      (click)="onSwitchToAdmin()"
+    >
+      Admin
+    </button>
+  </div>
+</div>

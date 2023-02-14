@@ -3,13 +3,29 @@ export class InMemoryDataService {
     const productTypes = [
       { id: 1, name: 'Food' },
       { id: 2, name: 'Drinks' },
-      { id: 3, name: 'Laundry' },
-      { id: 4, name: 'detergent' },
-      { id: 5, name: 'Electronics' },
-      { id: 6, name: 'Furniture' },
-      { id: 7, name: 'Clothing' },
-      { id: 8, name: 'Automobiles' },
+      { id: 3, name: 'Electronics' },
     ];
-    return { productTypes };
+    const food = [
+      { id: 1, name: 'asparagus' },
+      { id: 2, name: 'apples' },
+      { id: 3, name: 'avacado' },
+      { id: 4, name: 'alfalfa' },
+      { id: 5, name: 'almond' },
+    ];
+    const drinks = [
+      { id: 1, name: 'Wine' },
+      { id: 2, name: 'Coffee' },
+      { id: 3, name: 'Lemonade' },
+      { id: 4, name: 'Iced tea' },
+      { id: 5, name: 'Hot chocolate' },
+    ];
+    const electronics = [
+      { id: 1, name: 'Mobile Devices. ' },
+      { id: 2, name: 'Wearables.' },
+      { id: 3, name: 'Laptops' },
+      { id: 4, name: 'Scanners' },
+      { id: 5, name: 'Printers' },
+    ];
+    return { productTypes, food, drinks, electronics };
   }
 }

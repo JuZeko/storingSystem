@@ -1,16 +1,15 @@
 <label>Different types of products </label>
 <div class="pr-5">
-  <button type="button">USER</button>
+  <app-page-permissions></app-page-permissions>
+  <ng-select
+    [items]="productTypes"
+    bindLabel="name"
+    bindValue="id"
+    (click)="changeProductType()"
+    placeholder="Select product Type"
+    [(ngModel)]="selectedProductTypeId"
+  >
+  </ng-select>
 
-  <button type="button">ADMIN</button>
+  <app-product-table [item]="currentItem"></app-product-table>
 </div>
-<ng-select
-  [items]="productTypes"
-  bindLabel="name"
-  bindValue="id"
-  placeholder="Select product Type"
-  [(ngModel)]="selectedProductTypeId"
->
-</ng-select>
-
-<app-product-table [item]="currentItem"></app-product-table>
