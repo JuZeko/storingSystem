@@ -1,4 +1,6 @@
 <div class="row">
+  <p *ngIf="isUserAdmin; else showThis">Connected as Admin</p>
+  <ng-template #showThis><p>Connected as User</p> </ng-template>
   <div class="col">
     <button
       type="button"

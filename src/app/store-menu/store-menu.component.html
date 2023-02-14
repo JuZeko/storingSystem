@@ -1,6 +1,5 @@
-<label>Different types of products </label>
 <div class="pr-5">
-  <app-page-permissions></app-page-permissions>
+  <div class="py-3"><app-page-permissions></app-page-permissions></div>
   <ng-select
     [items]="productTypes"
     bindLabel="name"
@@ -11,5 +10,8 @@
   >
   </ng-select>
 
-  <app-product-table [item]="currentItem"></app-product-table>
+  <app-product-table
+    [item]="currentItem"
+    *ngIf="selectedProductTypeId"
+  ></app-product-table>
 </div>

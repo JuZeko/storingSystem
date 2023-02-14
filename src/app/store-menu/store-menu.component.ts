@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NgOption } from '@ng-select/ng-select';
-import { PeriodicElement } from '../product-table/product-table.component';
+import { Product } from '../product-table/product-table.component';
 import { ProductTypeService } from '../shared/services/product.service';
 
 @Component({
