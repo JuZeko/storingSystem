@@ -5,7 +5,9 @@
     <button
       type="button"
       class="btn btn-primary me-4"
-      [ngClass]="{ 'btn btn-primary': isUserAdmin === false }"
+      [ngClass]="
+        !isUserAdmin === true ? 'btn btn-primary' : 'btn btn-secondary'
+      "
       (click)="onSwitcTohUser()"
     >
       User
@@ -13,7 +15,7 @@
 
     <button
       type="button"
-      [ngClass]="{ 'btn btn-primary': isUserAdmin === true }"
+      [ngClass]="isUserAdmin === true ? 'btn btn-primary' : 'btn btn-secondary'"
       class="btn btn-primary"
       (click)="onSwitchToAdmin()"
     >

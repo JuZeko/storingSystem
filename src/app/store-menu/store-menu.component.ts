@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NgOption } from '@ng-select/ng-select';
-import { Product } from '../product-table/product-table.component';
 import { ProductTypeService } from '../shared/services/product.service';
 
 @Component({
@@ -13,11 +12,12 @@ import { ProductTypeService } from '../shared/services/product.service';
 export class StoreMenuComponent {
   productTypes: NgOption[] = [];
   selectedProductTypeId: any;
-
+  currentProductType: string | undefined;
   dataSource: any;
 
   constructor(private productTypeService: ProductTypeService) {}
   currentItem!: NgOption[];
+  isPermissionAdmin: boolean | undefined;
   ngOnInit(): void {
     this.productTypeService
       .getProductTypes()
@@ -25,27 +25,29 @@ export class StoreMenuComponent {
   }
 
   public changeProductType(): void {
-    console.log(this.selectedProductTypeId);
     switch (this.selectedProductTypeId) {
       case 1:
         this.productTypeService
           .getProducts('food')
           .subscribe((productTypes) => (this.currentItem = productTypes));
+        this.currentProductType = 'food';
         break;
       case 2:
         this.productTypeService
           .getProducts('drinks')
           .subscribe((productTypes) => (this.currentItem = productTypes));
+        this.currentProductType = 'drinks';
         break;
       case 3:
         this.productTypeService
           .getProducts('electronics')
           .subscribe((productTypes) => (this.currentItem = productTypes));
+        this.currentProductType = 'electronics';
         break;
     }
   }
 
-  ngOnChanges() {
-    console.log('132123');
+  public isAdmin(isPermissionAdmin: boolean): void {
+    this.isPermissionAdmin = isPermissionAdmin;
   }
 }

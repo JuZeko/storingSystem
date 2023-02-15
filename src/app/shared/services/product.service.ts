@@ -1,32 +1,24 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgOption } from '@ng-select/ng-select';
 import {
+  filter,
+  map,
   Observable,
   throwError as observableThrowError,
   throwError,
 } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { Product } from 'src/app/product-table/product-table.component';
+import { Product } from '../models/product';
 
-import { ProductType } from '../models/ProductType';
+import { ProductType } from '../models/productType';
 
 @Injectable()
 export class ProductTypeService {
-  private storeSystem = 'app/productTypes';
-  private food = 'app/food';
-  private drinks = 'app/drinks';
-  private electronics = 'app/electronics';
-  // URL to web api
-
   constructor(private http: HttpClient) {}
-
-  // getProductTypes() {
-  //   return this.http.get<ProductType[]>(this.storeSystem).pipe(
-  //     map((data) => data),
-  //     catchError(this.handleError)
-  //   );
-  // }
 
   headers = {
     'Content-Type': 'application/json',
@@ -46,37 +38,79 @@ export class ProductTypeService {
     );
   }
 
-  public deleteProduct(productId: string): any {
-    return this.http.delete(
-      'https://localhost:7250/Product/delete/' + encodeURIComponent(productId)
-    );
+  public refreshProducts(productType: string): Observable<Product[]> {
+    return this.http
+      .get<Product[]>(
+        'https://localhost:7250/Product/getAll/' +
+          encodeURIComponent(productType)
+      )
+      .pipe(
+        map((product) =>
+          product.filter(
+            (returnProduct) => returnProduct.productType == productType
+          )
+        )
+      );
   }
 
-  getDrinks() {
-    return this.http.get<NgOption[]>(this.drinks).pipe(
-      map((data) => data),
-      catchError(this.handleError)
-    );
+  public deleteProduct(
+    productId: string,
+    productType: string
+  ): Observable<Product[]> {
+    return this.http
+      .delete<Product[]>(
+        'https://localhost:7250/Product/delete/' + encodeURIComponent(productId)
+      )
+      .pipe(
+        map((product) =>
+          product.filter(
+            (returnProduct) => returnProduct.productType == productType
+          )
+        )
+      );
   }
 
-  getElectronics() {
-    return this.http.get<NgOption[]>(this.electronics).pipe(
-      map((data) => data),
-      catchError(this.handleError)
-    );
+  public createProduct(product: Product): Observable<Product[]> {
+    var productType = product.productType;
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    let options = { headers: headers };
+
+    return this.http
+      .post<Product[]>(
+        'https://localhost:7250/Product/create',
+        JSON.stringify(product),
+        options
+      )
+      .pipe(
+        map((product) =>
+          product.filter(
+            (returnProduct) => returnProduct.productType == productType
+          )
+        )
+      );
   }
 
-  createProduct(product: any): Observable<any> {
-    return this.http.post<any>(this.food, product).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error(error);
-        return throwError(error);
-      })
-    );
-  }
+  public updateProduct(product: Product): Observable<Product[]> {
+    var productType = product.productType;
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
 
-  private handleError(res: HttpErrorResponse | any) {
-    console.error(res.error || res.body.error);
-    return observableThrowError(res.error || 'Server error');
+    let options = { headers: headers };
+    return this.http
+      .put<Product[]>(
+        'https://localhost:7250/Product/update',
+        JSON.stringify(product),
+        options
+      )
+      .pipe(
+        map((product) =>
+          product.filter(
+            (returnProduct) => returnProduct.productType == productType
+          )
+        )
+      );
   }
 }

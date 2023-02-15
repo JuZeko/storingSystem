@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-page-permissions',
@@ -6,13 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./page-permissions.component.scss'],
 })
 export class PagePermissionsComponent {
-  isUserAdmin: boolean | undefined;
+  isUserAdmin: boolean = false;
+  @Output() permission = new EventEmitter();
 
   onSwitcTohUser() {
     this.isUserAdmin = false;
+    this.permission.emit(this.isUserAdmin);
   }
 
   onSwitchToAdmin() {
     this.isUserAdmin = true;
+    this.permission.emit(this.isUserAdmin);
   }
 }

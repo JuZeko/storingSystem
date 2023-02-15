@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { Product } from '../shared/models/product';
 import { ProductTypeService } from '../shared/services/product.service';
-
-export interface Product {
-  id: number;
-  name: string;
-}
 
 @Component({
   selector: 'app-product-table',
@@ -15,13 +17,25 @@ export interface Product {
 })
 export class ProductTableComponent {
   @Input() item: any;
+  @Input() isPermissionAdmin: boolean | undefined;
+  @Input() currentProductType: any;
+
+  editProducts: boolean = false;
   form = new FormGroup({
     product: new FormControl(''),
   });
+
+  updateProducts: boolean = false;
+  updateForm = new FormGroup({
+    productId: new FormControl(''),
+    productName: new FormControl(''),
+  });
+
   constructor(private productTypeService: ProductTypeService) {}
 
-  displayedColumns: string[] = ['id', 'name'];
-  dataSource: any;
+  displayedColumns: string[] = ['id', 'name', 'actions'];
+  dataSource = new MatTableDataSource<Product>();
+
   ngOnInit(): void {
     this.dataSource = this.item;
   }
@@ -30,14 +44,41 @@ export class ProductTableComponent {
     this.dataSource = this.item;
   }
 
-  AddProduct() {
-    this.productTypeService.createProduct(this.form.value.product);
-    this.dataSource = this.item;
+  public AddProduct(): void {
+    const product: Product = {
+      id: undefined,
+      name: this.form.value.product?.toString(),
+      productType: this.currentProductType,
+    };
+
+    this.productTypeService
+      .createProduct(product)
+      .subscribe((data: Product[]) => {
+        this.dataSource.data = data;
+      });
+    this.dataSource = new MatTableDataSource<Product>();
   }
 
-  removeProduct(productId: string) {
+  public removeProduct(productId: string, productType: string): void {
     this.productTypeService
-      .deleteProduct(productId)
-      .subscribe(() => (this.dataSource = this.item));
+      .deleteProduct(productId, productType)
+      .subscribe((data: Product[]) => {
+        this.dataSource.data = data;
+      });
+    this.dataSource = new MatTableDataSource<Product>();
+  }
+
+  public updateProduct(): void {
+    const product: Product = {
+      id: this.updateForm.value.productId?.toString(),
+      name: this.updateForm.value.productName?.toString(),
+      productType: this.currentProductType,
+    };
+
+    this.productTypeService
+      .updateProduct(product)
+      .subscribe((data: Product[]) => {
+        this.dataSource.data = data;
+      });
   }
 }

@@ -8,23 +8,59 @@
     <th mat-header-cell *matHeaderCellDef>Name</th>
     <td mat-cell *matCellDef="let element">
       {{ element.name }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let element">
       <button
+        *ngIf="isPermissionAdmin"
         mat-button
-        class="button-remove"
-        (click)="removeProduct(element.id)"
+        class="btn btn-danger me-4"
+        (click)="removeProduct(element.id, element.productType)"
       >
         Delete
       </button>
-    </td>
-  </ng-container>
+    </td></ng-container
+  >
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
-<div class="ps-3">
-  <form [formGroup]="form" (submit)="AddProduct()" class="pt-3">
-    <input formControlName="product" placeholder="add product" />
-    <hr />
-    <button>Submit</button>
-  </form>
-</div>
+
+<form
+  [formGroup]="form"
+  (submit)="AddProduct()"
+  class="pt-3"
+  style="display: flex"
+>
+  <button [disabled]="!isPermissionAdmin" class="btn btn-primary pe-3">
+    Add
+  </button>
+  <input
+    formControlName="product"
+    placeholder="add product"
+    class="form-control w-50"
+  />
+</form>
+
+<form
+  [formGroup]="updateForm"
+  (submit)="updateProduct()"
+  class="pt-3"
+  style="display: flex"
+>
+  <button [disabled]="!isPermissionAdmin" class="btn btn-primary pe-3">
+    Update
+  </button>
+  <input
+    formControlName="productId"
+    placeholder="id"
+    class="form-control w-10"
+  />
+  <input
+    formControlName="productName"
+    placeholder="productName"
+    class="form-control w-10"
+  />
+</form>
