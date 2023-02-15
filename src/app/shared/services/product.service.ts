@@ -21,17 +21,34 @@ export class ProductTypeService {
 
   constructor(private http: HttpClient) {}
 
-  getProductTypes() {
-    return this.http.get<ProductType[]>(this.storeSystem).pipe(
-      map((data) => data),
-      catchError(this.handleError)
+  // getProductTypes() {
+  //   return this.http.get<ProductType[]>(this.storeSystem).pipe(
+  //     map((data) => data),
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+  headers = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+
+  public getProductTypes(): Observable<ProductType[]> {
+    return this.http.get<ProductType[]>(
+      'https://localhost:7250/ProductType/getAll'
     );
   }
 
-  getFood() {
-    return this.http.get<NgOption[]>(this.food).pipe(
-      map((data) => data),
-      catchError(this.handleError)
+  public getProducts(foodType: string) {
+    return this.http.get<NgOption[]>(
+      'https://localhost:7250/Product/getAll/' + encodeURIComponent(foodType)
+    );
+  }
+
+  public deleteProduct(productId: string): any {
+    return this.http.delete(
+      'https://localhost:7250/Product/delete/' + encodeURIComponent(productId)
     );
   }
 
@@ -61,9 +78,5 @@ export class ProductTypeService {
   private handleError(res: HttpErrorResponse | any) {
     console.error(res.error || res.body.error);
     return observableThrowError(res.error || 'Server error');
-  }
-
-  deleteProduct(id: number): Observable<any> {
-    return this.http.delete(this.food + id);
   }
 }

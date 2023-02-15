@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProductTypeService } from '../shared/services/product.service';
 
@@ -9,6 +9,7 @@ export interface Product {
 
 @Component({
   selector: 'app-product-table',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './product-table.component.html',
   styleUrls: ['./product-table.component.scss'],
 })
@@ -34,12 +35,9 @@ export class ProductTableComponent {
     this.dataSource = this.item;
   }
 
-  removeProduct(product: Product) {
-    const id = product.id;
-    console.log(product);
+  removeProduct(productId: string) {
     this.productTypeService
-      .deleteProduct(id)
-      .subscribe((product) => console.log(product));
-    this.dataSource = this.item;
+      .deleteProduct(productId)
+      .subscribe(() => (this.dataSource = this.item));
   }
 }

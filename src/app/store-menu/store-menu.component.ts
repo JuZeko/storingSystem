@@ -24,21 +24,22 @@ export class StoreMenuComponent {
       .subscribe((productTypes) => (this.productTypes = productTypes));
   }
 
-  changeProductType() {
+  public changeProductType(): void {
+    console.log(this.selectedProductTypeId);
     switch (this.selectedProductTypeId) {
       case 1:
         this.productTypeService
-          .getFood()
+          .getProducts('food')
           .subscribe((productTypes) => (this.currentItem = productTypes));
         break;
       case 2:
         this.productTypeService
-          .getDrinks()
+          .getProducts('drinks')
           .subscribe((productTypes) => (this.currentItem = productTypes));
         break;
       case 3:
         this.productTypeService
-          .getElectronics()
+          .getProducts('electronics')
           .subscribe((productTypes) => (this.currentItem = productTypes));
         break;
     }
