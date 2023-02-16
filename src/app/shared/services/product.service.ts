@@ -1,12 +1,7 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgOption } from '@ng-select/ng-select';
 import {
-  filter,
   map,
   Observable,
   throwError as observableThrowError,
@@ -14,7 +9,8 @@ import {
 } from 'rxjs';
 import { Product } from '../models/product';
 
-import { ProductType } from '../models/productType';
+import { ProductType } from '../models/ProductType';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ProductTypeService {
@@ -59,7 +55,7 @@ export class ProductTypeService {
   ): Observable<Product[]> {
     return this.http
       .delete<Product[]>(
-        'https://localhost:7250/Product/delete/' + encodeURIComponent(productId)
+        environment.baseUrl + 'Product/delete/' + encodeURIComponent(productId)
       )
       .pipe(
         map((product) =>
@@ -79,7 +75,7 @@ export class ProductTypeService {
 
     return this.http
       .post<Product[]>(
-        'https://localhost:7250/Product/create',
+        environment.baseUrl + 'Product/create',
         JSON.stringify(product),
         options
       )
@@ -101,7 +97,7 @@ export class ProductTypeService {
     let options = { headers: headers };
     return this.http
       .put<Product[]>(
-        'https://localhost:7250/Product/update',
+        environment.baseUrl + 'Product/update',
         JSON.stringify(product),
         options
       )

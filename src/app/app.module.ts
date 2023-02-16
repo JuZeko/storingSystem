@@ -7,8 +7,6 @@ import { AppComponent } from './app.component';
 import { StoreMenuComponent } from './store-menu/store-menu.component';
 import { ProductTypeService } from './shared/services/product.service';
 import { HttpClientModule } from '@angular/common/http';
-import { InMemoryDataService } from './shared/services/in-memory-data.service';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProductTableComponent } from './product-table/product-table.component';
 import { MatTableModule } from '@angular/material/table';
@@ -17,7 +15,12 @@ import { MatSortModule } from '@angular/material/sort';
 import { PagePermissionsComponent } from './page-permissions/page-permissions.component';
 
 @NgModule({
-  declarations: [AppComponent, StoreMenuComponent, ProductTableComponent, PagePermissionsComponent],
+  declarations: [
+    AppComponent,
+    StoreMenuComponent,
+    ProductTableComponent,
+    PagePermissionsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -25,11 +28,7 @@ import { PagePermissionsComponent } from './page-permissions/page-permissions.co
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
-      dataEncapsulation: false,
-      delay: 300,
-      passThruUnknownUrl: true,
-    }),
+
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,

@@ -28,39 +28,37 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
 
-<form
-  [formGroup]="form"
-  (submit)="AddProduct()"
-  class="pt-3"
-  style="display: flex"
->
-  <button [disabled]="!isPermissionAdmin" class="btn btn-primary pe-3">
-    Add
-  </button>
-  <input
-    formControlName="product"
-    placeholder="add product"
-    class="form-control w-50"
-  />
-</form>
+<div *ngIf="isPermissionAdmin">
+  <form
+    [formGroup]="form"
+    (submit)="AddProduct()"
+    class="pt-3"
+    style="display: flex"
+  >
+    <button class="btn btn-primary me-3">Add</button>
+    <input
+      formControlName="product"
+      placeholder="Product name"
+      class="form-control w-15"
+    />
+  </form>
 
-<form
-  [formGroup]="updateForm"
-  (submit)="updateProduct()"
-  class="pt-3"
-  style="display: flex"
->
-  <button [disabled]="!isPermissionAdmin" class="btn btn-primary pe-3">
-    Update
-  </button>
-  <input
-    formControlName="productId"
-    placeholder="id"
-    class="form-control w-10"
-  />
-  <input
-    formControlName="productName"
-    placeholder="productName"
-    class="form-control w-10"
-  />
-</form>
+  <form
+    [formGroup]="updateForm"
+    (submit)="updateProduct()"
+    class="pt-3"
+    style="display: flex"
+  >
+    <button class="btn btn-primary me-3">Update</button>
+    <input
+      formControlName="productId"
+      placeholder="Product Id"
+      class="form-control me-3"
+    />
+    <input
+      formControlName="productName"
+      placeholder="Product name"
+      class="form-control w-15"
+    />
+  </form>
+</div>
